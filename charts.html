@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script>
+      function drawChart() {
+        var jsonData = $.ajax({
+          url: 'https://api.xively.com/v2/feeds/155745000.json?key=vpk2mUbVq2PoKr7x8qri8mKLvXJ9K0JVKe5mOfNzcRSSfLhd&datastreams=Bedroom_Multisensor_temperature,Bedroom_Multisensor_humidity&duration=24hours&interval=60&limit=1000'
+        }).done(function (results) {
+          var dataTemp = new google.visualization.DataTable();
+
+          dataTemp.addColumn('datetime', 'Time');
+          dataTemp.addColumn('number', 'Temperature');
+          dataTemp.addColumn('number', 'Humidity');
+
+          $.each(results.datastreams[1].datapoints, function (i, row) {
+            dataTemp.addRow([
+              (new Date(row.at)),
+              parseFloat(row.value),
+              parseFloat(results.datastreams[0].datapoints[i].value)
+            ]);
+          });
+
+          var chart = new google.charts.Line($('#chartTemp').get(0));
+          var options = {
+              title: 'Bedroom Temperature and Humidity',
+              width: 900,
+              height: 500,
+              series: {
+                  0: {targetAxisIndex: 0},
+                  1: {targetAxisIndex: 1}
+              },
+              vAxes: {
+                  0: {
+                      title: "Temperature (Farenheit)",
+                      viewWindow: {
+                          min: 60,
+                          max: 90
+                      }
+                  },
+                  1: {
+                      title: "Humidity (%)",
+                      viewWindow: {
+                          min: 30,
+                          max: 60
+                      }
+                  },
+              }
+            };
+
+          chart.draw(dataTemp, google.charts.Line.convertOptions(options));
+        });
+      }
+
+      // load chart lib
+      google.load('visualization', '1.1', {
+        packages: ['line']
+      });
+
+      // call drawChart once google charts is loaded
+      google.setOnLoadCallback(drawChart);
+
+    </script>
+
+  </head>
+  <body>
+    <div id="chartTemp" style="width: 100%;"></div>
+  </body>
+</html>
