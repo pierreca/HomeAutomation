@@ -1,0 +1,13 @@
+#header {
+	text-align: center;
+}
+
+h1 {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 36;
+	color: dodgerblue;
+}
+
+select {
+	padding: 5px 10px;
+}

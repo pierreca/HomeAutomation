@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home Sensors Charts</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="js/homeCharts.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/homeCharts.css"></link>
+  </head>
+  <body>
+    <div id='header'>
+    <h1>Home Sensors Charts</h1>
+      <div>
+        <select id='durations' onchange="drawCharts()">
+          <option value='12hours' selected>12 Hours</option>
+          <option value='24hours'>24 Hours</option>
+          <option value='5days'>5 Days</option>
+        </select>
+      </div>
+    </div>
+    
+    <div id="TemperatureChart" style="width: 100%;"></div>
+    <div id="HumidityChart" style="width: 100%;"></div>
+    <div id="IlluminanceChart" style="width: 100%;"></div>
+    <!--<div id="bedroomTempChart" style="width: 100%;"></div>
+    <div id="bedroomIllumChart" style="width: 100%;"></div>
+    <div id="frontDoorTempChart" style="width: 100%;"></div>
+    <div id="frontDoorIllumChart" style="width: 100%;"></div>
+    <div id="rooftopTempChart" style="width: 100%;"></div>
+    <div id="rooftopIllumChart" style="width: 100%;"></div>
+    <div id="nestTempChart" style="width: 100%;"></div>-->
+  </body>
+</html>
