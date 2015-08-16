@@ -90,35 +90,33 @@ function drawAggregatedSensorsChart(sensors, measureName, divId, duration) {
   
   var xi_urls = buildXivelyUrls(datastreams, duration);
   var dataSubsets = [];
+  var xi_requests = [];
   
-  function getXivelyDataPage (index) {
-    var def = $.Deferred();
-    $.getJSON(xi_urls[index], function (results) {
-      var subset = [];
-      $.each(results.datastreams[0].datapoints, function (i, row) {
-        try {
-          var cols = [(new Date(row.at))];
-          for (var j = 0; j < sensors.length; j++) {
-            cols.push(parseFloat(results.datastreams[j].datapoints[i].value));
+  for (var i = 0; i < xi_urls.length; i++) {
+    xi_requests.push(function (index) {
+      var def = $.Deferred();
+      $.getJSON(xi_urls[index], function (results) {
+        var subset = [];
+        $.each(results.datastreams[0].datapoints, function (i, row) {
+          try {
+            var cols = [(new Date(row.at))];
+            for (var j = 0; j < sensors.length; j++) {
+              cols.push(parseFloat(results.datastreams[j].datapoints[i].value));
+            }
+            
+            subset.push(cols);
+          } catch (err) {
+            console.log(err);
+            def.reject(err);
           }
-          
-          subset.push(cols);
-        } catch (err) {
-          console.log(err);
-          def.reject(err);
-        }
+        });
+        
+        dataSubsets[index] = subset;
+        def.resolve(index);
       });
       
-      dataSubsets[index] = subset;
-      def.resolve(index);
-    });
-    
-    return def;
-  }
-  
-  var xi_requests = [];
-  for (var i = 0; i < xi_urls.length; i++) {
-    xi_requests.push(getXivelyDataPage(i));
+      return def;
+    }(i));
   }
   
   $.when.apply($, xi_requests).then(function() {
