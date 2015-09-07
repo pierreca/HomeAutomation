@@ -1,16 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="homeDashboardApp">
   <head>
-    <title>Home Sensors Charts</title>
+    <meta charset="utf-8">
+    <title>Home Dashboard</title>
+    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/amcharts/dist/amcharts/amcharts.js"></script>
+    <script type="text/javascript" src="bower_components/amcharts/dist/amcharts/serial.js"></script>
+    <script type="text/javascript" src="bower_components/amcharts-angular/dist/amChartsDirective.js"></script>
+    <!--
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://www.google.com/jsapi"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
     <script src="js/homeCharts.js"></script>
+    -->
+    
+    <script type="text/ng-template" id="/sensor-state.html">
+      <div class="sensorState">
+        <h1>{{sensor.name}}</h1>
+        <p class="date">{{sensor.timestamp | date : 'short'}}</p>
+        <h2>{{sensor.value}}</h2>
+      </div>
+    </script>
+    <script type="text/javascript" src="js/controllers.js"></script>
     <link rel="stylesheet" type="text/css" href="css/homeCharts.css"></link>
   </head>
-  <body>
+  <body ng-controller="SensorValuesCtrl">
+    <div id='temperatureSensors'>
+      <h1 ng-click="getTempChart()">Temperatures</h1>
+      <sensor-state ng-repeat="sensor in temperatures" sensor="sensor"></sensor-state>
+      <div class="chart" ng-show="showTempChart">
+          <am-chart id="tempChart" options="tempChartOptions"></am-chart>
+      </div>
+    </div>
+    <div id='humiditySensors'>
+      <h1>Humidity</h1>
+      <sensor-state ng-repeat="sensor in humidities" sensor="sensor"></sensor-state>
+    </div>
+    <div id='illuminanceSensors'>
+      <h1>Illuminance</h1>
+      <sensor-state ng-repeat="sensor in illuminances" sensor="sensor"></sensor-state>
+    </div>
+    <!--
     <div id='header'>
-    <h1>Home Sensors Charts</h1>
+    <h1>Home Sensor Charts</h1>
       <div>
         <select id='durations' onchange="drawAllCharts()">
           <option value='12hours' selected>12 Hours</option>
@@ -23,5 +55,6 @@
     <div id="TemperatureChart" style="width: 100%;"></div>
     <div id="HumidityChart" style="width: 100%;"></div>
     <div id="IlluminanceChart" style="width: 100%;"></div>
+    -->
   </body>
 </html>
