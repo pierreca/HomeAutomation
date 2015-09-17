@@ -1,0 +1,3 @@
+[submodule "lib/amCharts-Angular"]
+	path = lib/amCharts-Angular
+	url = https://github.com/pierreca/amCharts-Angular.git

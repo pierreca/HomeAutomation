@@ -20,7 +20,6 @@
     "tests"
   ],
   "dependencies": {
-    "amcharts-angular": "*",
     "angular": "~1.4.4"
   }
 }
